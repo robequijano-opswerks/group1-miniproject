@@ -1,3 +1,3 @@
 # group1-miniproject for Opswerks
-# Made by: Alfonso Alcala, Dunn Baetiong, Tabotabo, Quijano
+# Made by: Alcala, Dunn Baetiong, Tabotabo, Quijano
 
