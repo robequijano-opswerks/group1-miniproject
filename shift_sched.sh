@@ -6,10 +6,32 @@ if [ ! -f "$list" ]; then
     touch "$list"
 fi
 
+display_schedule() {
+    if [ ! -s "$list" ]; then
+        echo "No data available."
+    else
+        team=$(awk '{print $3}' "$list" | sort | uniq)
+
+        for team in $team; do
+            echo "$team"
+            grep " $team$" "$list" | while read -r line; do
+                name=$(echo "$line" | awk '{print toupper(substr($1,1,1)) tolower(substr($1,2))}')
+                shift=$(echo "$line" | awk '{print toupper(substr($2,1,1)) tolower(substr($2,2))}')
+                echo "   $name, $shift"
+            done
+        done
+    fi
+}
+
 while true; 
 
 do
     read -p "Enter name: " name
+
+    if [ "$name" == "print" ]; then
+        display_schedule
+        exit 0
+    fi
 
     read -p "Enter shift (morning/mid/midnight): " shift
     if ! [[ "$shift" =~ ^(morning|mid|midnight)$ ]]; then
