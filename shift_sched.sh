@@ -15,7 +15,7 @@ shift_time() {
         mid)
             echo "2pm-11pm"
             ;;
-        midnight)
+        night)
             echo "10pm-7am"
             ;;
     esac
@@ -75,9 +75,9 @@ do
         exit 0
     fi
 
-    read -p "Enter shift (morning/mid/midnight): " shift
-    if ! [[ "$shift" =~ ^(morning|mid|midnight)$ ]]; then
-        echo "Invalid shift. Available shifts: 'morning' 'mid' 'midnight'"
+    read -p "Enter shift (morning/mid/night): " shift
+    if ! [[ "$shift" =~ ^(morning|mid|night)$ ]]; then
+        echo "Invalid shift. Available shifts: 'morning' 'mid' 'night'"
         continue
     fi
 
