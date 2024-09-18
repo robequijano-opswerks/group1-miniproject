@@ -39,6 +39,17 @@ display_schedule() {
     fi
 }
 
+shift_full() {
+    team=$1
+    shift=$2
+    count=$(grep -c "$shift $team" "$file")
+    if [ "$count" -ge 2 ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 while true; 
 
 do
@@ -65,3 +76,4 @@ do
     echo "$name $shift $team" >> "$list" || continue
 
 done 
+
