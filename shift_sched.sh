@@ -6,6 +6,21 @@ if [ ! -f "$list" ]; then
     touch "$list"
 fi
 
+shift_time() {
+    shift=$1
+    case $shift in
+        morning)
+            echo "6am-3pm"
+            ;;
+        mid)
+            echo "2pm-11pm"
+            ;;
+        midnight)
+            echo "10pm-7am"
+            ;;
+    esac
+}
+
 display_schedule() {
     if [ ! -s "$list" ]; then
         echo "No data available."
@@ -16,9 +31,10 @@ display_schedule() {
             echo "$team"
             grep " $team$" "$list" | while read -r line; do
                 name=$(echo "$line" | awk '{print toupper(substr($1,1,1)) tolower(substr($1,2))}')
-                shift=$(echo "$line" | awk '{print toupper(substr($2,1,1)) tolower(substr($2,2))}')
-                echo "   $name, $shift"
-            done
+            	shift=$(echo "$line" | awk '{print tolower($2)}')
+                time=$(shift_time "$shift")
+                echo "   $name, $shift, $time"
+	    done
         done
     fi
 }
