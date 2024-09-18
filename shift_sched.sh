@@ -22,21 +22,21 @@ shift_time() {
 }
 
 display_schedule() {
-    if [ ! -s "$list" ]; then
-        echo "No data available."
-    else
-        team=$(awk '{print $3}' "$list" | sort | uniq)
+        team=("a1" "a2" "a3" "b1" "b2" "b3")
 
-        for team in $team; do
+        for team in "${team[@]}"; do
             echo "$team"
-            grep " $team$" "$list" | while read -r line; do
-                name=$(echo "$line" | awk '{print toupper(substr($1,1,1)) tolower(substr($1,2))}')
-            	shift=$(echo "$line" | awk '{print tolower($2)}')
-                time=$(shift_time "$shift")
-                echo "   $name, $shift, $time"
-	    done
+            if grep -q " $team$" "$list"; then
+            	grep " $team$" "$list" | while read -r line; do
+                	name=$(echo "$line" | awk '{print toupper(substr($1,1,1)) tolower(substr($1,2))}')
+                	shift=$(echo "$line" | awk '{print tolower($2)}')
+                	time=$(shift_time "$shift")
+                	echo "   $name, $shift, $time"
+        	done
+            else
+                echo " "
+            fi
         done
-    fi
 }
 
 shift_full() {
