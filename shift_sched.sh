@@ -6,6 +6,21 @@ if [ ! -f "$list" ]; then
     touch "$list"
 fi
 
+shift_time() {
+    shift=$1
+    case $shift in
+        morning)
+            echo "6am-3pm"
+            ;;
+        mid)
+            echo "2pm-11pm"
+            ;;
+        midnight)
+            echo "10pm-7am"
+            ;;
+    esac
+}
+
 display_schedule() {
     if [ ! -s "$list" ]; then
         echo "No data available."
