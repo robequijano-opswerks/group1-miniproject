@@ -42,11 +42,26 @@ display_schedule() {
 shift_full() {
     team=$1
     shift=$2
-    count=$(grep -c "$shift $team" "$file")
+    count=$(grep -c "$shift $team" "$list")
     if [ "$count" -ge 2 ]; then
         return 0
     else
         return 1
+    fi
+}
+
+add_employee() {
+    name=$1
+    shift=$2
+    team=$3
+
+    if shift_full "$team" "$shift"; then
+        echo "Error: $shift shift in group $team is already full."
+        return 1
+    else
+        echo "$name $shift $team" >> "$list"
+        echo "Shift created!"
+        return 0
     fi
 }
 
@@ -72,8 +87,7 @@ do
         continue
     fi
 
-    echo "Shift Created!"
-    echo "$name $shift $team" >> "$list" || continue
+    add_employee "$name" "$shift" "$team" || continue
 
 done 
 
