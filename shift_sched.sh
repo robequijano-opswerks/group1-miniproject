@@ -21,22 +21,32 @@ shift_time() {
     esac
 }
 
-display_schedule() {
-        team=("A1" "A2" "A3" "B1" "B2" "B3")
+sort_sched() {
+    time=$1
+    case $time in
+        morning) echo 1 ;;
+        mid) echo 2 ;;
+        night) echo 3 ;;
+    esac
+}
 
-        for team in "${team[@]}"; do
-            echo "$team"
-            if grep -q " $team$" "$list"; then
-            	grep " $team$" "$list" | while read -r line; do
-                	name=$(echo "$line" | awk '{print $1}')
-                	shift=$(echo "$line" | awk '{print $2}')
-                	time=$(shift_time "$shift")
-                	echo "   $name, $shift, $time"
-        	done
-            else
-                echo " "
-            fi
-        done
+display_schedule() {
+    team=("A1" "A2" "A3" "B1" "B2" "B3")
+
+    for team in "${team[@]}"; do
+        echo "$team"
+        if grep -q " $team$" "$list"; then
+            grep " $team$" "$list" | while read -r line; do
+                name=$(echo "$line" | awk '{print $1}')
+                shift=$(echo "$line" | awk '{print $2}')
+                time=$(shift_time "$shift")
+                order=$(sort_sched "$shift")
+                echo "$order $name, $shift, $time"
+            done | sort -k1,1n | awk '{$1=""; print "   " $0}'
+        else
+            echo " "
+        fi
+    done
 }
 
 shift_full() {
