@@ -22,7 +22,7 @@ shift_time() {
 }
 
 display_schedule() {
-        team=("a1" "a2" "a3" "b1" "b2" "b3")
+        team=("A1" "A2" "A3" "B1" "B2" "B3")
 
         for team in "${team[@]}"; do
             echo "$team"
@@ -81,9 +81,9 @@ do
         continue
     fi
 
-    read -p "Enter team (a1, a2, a3, b1, b2, b3): " team
-    if ! [[ "$team" =~ ^(a1|a2|a3|b1|b2|b3)$ ]]; then
-        echo "Invalid team. Available team 'a1' 'a2' 'a3' 'b1' 'b2' 'b3'"
+    read -p "Enter team (A1, A2, A3, B1, B2, B3): " team
+    if ! [[ "$team" =~ ^(A1|A2|A3|B1|B2|B3)$ ]]; then
+        echo "Invalid team. Available team 'A1' 'A2' 'A3' 'B1' 'B2' 'B3'"
         continue
     fi
 
