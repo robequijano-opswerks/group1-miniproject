@@ -44,9 +44,9 @@ shift_full() {
     shift=$2
     count=$(grep -c "$shift $team" "$list")
     if [ "$count" -ge 2 ]; then
-        return 0
+       return 0
     else
-        return 1
+       return 1
     fi
 }
 
@@ -57,7 +57,7 @@ add_employee() {
 
     if shift_full "$team" "$shift"; then
         echo "Error: $shift shift in group $team is already full."
-        return 1
+        exit 1
     else
         echo "$name $shift $team" >> "$list"
         echo "Shift created!"
