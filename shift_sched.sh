@@ -28,8 +28,8 @@ display_schedule() {
             echo "$team"
             if grep -q " $team$" "$list"; then
             	grep " $team$" "$list" | while read -r line; do
-                	name=$(echo "$line" | awk '{print toupper(substr($1,1,1)) tolower(substr($1,2))}')
-                	shift=$(echo "$line" | awk '{print tolower($2)}')
+                	name=$(echo "$line" | awk '{print $1}')
+                	shift=$(echo "$line" | awk '{print $2}')
                 	time=$(shift_time "$shift")
                 	echo "   $name, $shift, $time"
         	done
@@ -51,7 +51,7 @@ shift_full() {
 }
 
 add_employee() {
-    name=$1
+    name=$(echo "$1" | awk '{print toupper(substr($1,1,1)) tolower(substr($1,2))}')
     shift=$2
     team=$3
 
@@ -61,6 +61,7 @@ add_employee() {
     else
         echo "$name $shift $team" >> "$list"
         echo "Shift created!"
+        echo "Employee $name is added to group $team $shift shift."
         return 0
     fi
 }
@@ -68,20 +69,20 @@ add_employee() {
 while true; 
 
 do
-    read -p "Enter name: " name
+    read -p "Enter Name: " name
 
     if [ "$name" == "print" ]; then
         display_schedule
         exit 0
     fi
 
-    read -p "Enter shift (morning/mid/night): " shift
+    read -p "Enter Shift (morning/mid/night): " shift
     if ! [[ "$shift" =~ ^(morning|mid|night)$ ]]; then
         echo "Invalid shift. Available shifts: 'morning' 'mid' 'night'"
         continue
     fi
 
-    read -p "Enter team (A1, A2, A3, B1, B2, B3): " team
+    read -p "Enter Team (A1, A2, A3, B1, B2, B3): " team
     if ! [[ "$team" =~ ^(A1|A2|A3|B1|B2|B3)$ ]]; then
         echo "Invalid team. Available team 'A1' 'A2' 'A3' 'B1' 'B2' 'B3'"
         continue
