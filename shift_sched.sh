@@ -66,29 +66,30 @@ add_employee() {
     fi
 }
 
-while true; 
-
-do
+while true; do
     read -p "Enter Name: " name
-
     if [ "$name" == "print" ]; then
         display_schedule
         exit 0
     fi
 
-    read -p "Enter Shift (morning/mid/night): " shift
-    if ! [[ "$shift" =~ ^(morning|mid|night)$ ]]; then
-        echo "Invalid shift. Available shifts: 'morning' 'mid' 'night'"
-        continue
-    fi
+    while true; do
+        read -p "Enter Shift (morning/mid/night): " shift
+        if [[ "$shift" =~ ^(morning|mid|night)$ ]]; then
+            break
+        else
+            echo "Invalid shift. Available shifts: 'morning' 'mid' 'night'"
+        fi
+    done
 
-    read -p "Enter Team (A1, A2, A3, B1, B2, B3): " team
-    if ! [[ "$team" =~ ^(A1|A2|A3|B1|B2|B3)$ ]]; then
-        echo "Invalid team. Available team 'A1' 'A2' 'A3' 'B1' 'B2' 'B3'"
-        continue
-    fi
+    while true; do
+        read -p "Enter Team (A1, A2, A3, B1, B2, B3): " team
+        if [[ "$team" =~ ^(A1|A2|A3|B1|B2|B3)$ ]]; then
+            break
+        else
+            echo "Invalid team. Available teams: 'A1' 'A2' 'A3' 'B1' 'B2' 'B3'"
+        fi
+    done
 
     add_employee "$name" "$shift" "$team" || continue
-
-done 
-
+done
