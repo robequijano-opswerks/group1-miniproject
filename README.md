@@ -12,4 +12,3 @@ Steps:
 
 4. On Pipeline:
    - Pipeline Name: "mini-proj"
-   - Change "master" to "main"
